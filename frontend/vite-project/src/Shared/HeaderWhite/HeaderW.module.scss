@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    ul {
+        list-style: none;
+    }
+
+    a {
+        text-decoration: none;
+    }
+}
+
+.header {
+    width: 100%;
+    min-height: 12vh;
+    display: flex;
+    align-items: center;
+    .container {
+        width: 100%;
+        max-width: 1180px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+
+        img {
+            width: 100px;
+            height: 70px;
+        }
+
+        nav {
+            width: 43%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            ul {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                li {
+                    display: flex;
+                    align-items: center;
+                    gap: 15px;
+                    img {
+                        width: 20px;
+                        height: 15px;
+                    }
+
+                    a {
+                        font-size: 1.4rem;
+                        font-weight: 500;
+                        color: #000;
+                    }
+                }
+            }
+        }
+
+        .headerActions {
+            width: 38%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .location {
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: space-evenly;
+                gap: 10px;
+                cursor: pointer;
+
+                .cityList {
+                    position: absolute;
+                    top: 100%;
+                    left: 17px;
+                    z-index: 10;
+                    min-width: 180px;
+                    display: flex;
+                    flex-direction: column;
+                    background: white;
+                    border-radius: 8px;
+
+                    li {
+                        font-size: 1.4rem;
+                        color: #000;
+                        cursor: pointer;
+                        padding: 10px;
+                    }
+                }
+
+                .locationImg {
+                    width: 17px;
+                    height: 20px;
+                }
+
+                p {
+                    font-size: 1.4rem;
+                    color: #000;
+                }
+
+                .arrowDownImg {
+                    width: 8px;
+                    height: 6px;
+                    cursor: pointer;
+                    transition: transform 0.3s ease;
+                }
+
+                .arrowUp {
+                    transform: rotate(180deg);
+                }
+            }
+
+            a {
+                font-size: 1.6rem;
+                color: #00093c;
+            }
+
+            .loginBlock {
+                display: flex;
+                gap: 10px;
+
+                img {
+                    width: 18px;
+                    height: 19px;
+                }
+            }
+        }
+    }
+}
