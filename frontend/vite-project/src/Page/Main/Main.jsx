@@ -1,228 +1,37 @@
-import { useState } from 'react';
-import styles from './Main.module.scss';
-import { Photos } from '../../../../photo';
+import { Link } from 'react-router-dom';
+import { audiences, courses, events, news } from '../../content';
+import { Tiles } from '../../Shared/Blocks';
 
 export default function Main() {
-    const [activeTabIndex, setActiveTabIndex] = useState(0);
-    const tabsData = [
-        {
-            id: 'children',
-            title: 'Дети',
-            subtitle: '8 — 14 лет',
-            icon: Photos.Children,
-            courses: [
-                'Робототехника',
-                'Создание игр',
-                'Программирование',
-                'Мультимедиа',
-                'Soft skills',
-                'Шахматы',
-                'Блогинг',
-                'Создание игр',
-                'Программирование',
-                'Мультимедиа',
-                'Soft skills',
-            ],
-        },
-        {
-            id: 'teen',
-            title: 'Подростки',
-            subtitle: '14 — 18 лет',
-            icon: Photos.Teen,
-            courses: [
-                'Web-разработка',
-                'Прикладное программирование',
-                'Графическое моделирование',
-                'Game Development',
-                'Soft skills',
-                'Разработчик мобильных приложений',
-                'Блогинг',
-                'Создание игр',
-                'Программирование',
-                'Мультимедиа',
-                'Soft skills',
-            ],
-        },
-        {
-            id: 'adult',
-            title: 'Взрослые',
-            subtitle: '18 — ∞',
-            icon: Photos.Adult,
-            courses: [
-                'Разработчик игр на Unity',
-                'Разработка ПО',
-                'Графический Дизайн',
-                'Тестировщик ПО',
-                'Интернет Маркетинг',
-                'Java-разработчик',
-                'Python-разработчик',
-                'iOS-разработчик',
-                'Программирование',
-            ],
-        },
-    ];
-
-    return (
-        <>
-            <section className={styles.mainBanner}>
-                <div className={styles.container}>
-                    <h1>Образовательная платформа ХОД Future Academy</h1>
-                    <p>Актуальные знания для новичков и профессионалов</p>
-                </div>
+    const openDay = events[0];
+    return <>
+        <section className="home-hero">
+            <div className="shell home-hero-inner">
+                <h1>Образовательная платформа ХОД Future Academy</h1>
+                <p>Практические программы для детей, подростков и взрослых.</p>
+                <Link className="action" to="/catalog">В каталог курсов</Link>
+            </div>
+        </section>
+        <div className="shell page-stack">
+            <section className="page-section">
+                <h2>Кем вы хотите стать?</h2>
+                <div className="audiences">{audiences.map((group) => <Link to={`/catalog?audience=${group.id}`} key={group.id}>
+                    <img src={group.icon} alt="" /><span><strong>{group.name}</strong><small>{group.age}</small></span>
+                </Link>)}</div>
+                <Tiles items={[courses[0], courses[4], courses[8]]} base="/courses" label={(course) => course.direction} />
             </section>
-
-            <section className={styles.courseCategories}>
-                <div className={styles.container}>
-                    <div className={styles.taglineBlock}>
-                        <img src={Photos.SovaTag} alt="" />
-                        <div className={styles.taglineText}>
-                            <h4>Кем вы хотите стать?</h4>
-                            <p>
-                                Пора найти себя <br /> и выбрать подходящий <br /> курс :)
-                            </p>
-                            <p>Удачи!</p>
-                        </div>
-                    </div>
-
-                    <div className={styles.programList}>
-                        {/* ВЕРХНЯЯ ЧАСТЬ: ВКЛАДКИ */}
-                        <div className={styles.top}>
-                            {tabsData.map((tab, index) => (
-                                <div
-                                    key={tab.id}
-                                    className={`${styles.ageCards} ${activeTabIndex === index ? styles.active : ''}`}
-                                    onClick={() => setActiveTabIndex(index)}>
-                                    <img src={tab.icon} alt="" />
-                                    <div className={styles.text}>
-                                        <h3>{tab.title}</h3>
-                                        <p>{tab.subtitle}</p>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-
-                        <div className={styles.bottom}>
-                            <ul className={styles.courseList}>
-                                {tabsData[activeTabIndex].courses.map((course, i) => (
-                                    <li key={i}>{course}</li>
-                                ))}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+            <section className="feature-strip tone-yellow">
+                <div><p className="eyebrow">{openDay.type}</p><h2>{openDay.title}</h2><p>{openDay.intro}</p></div>
+                <Link to={`/events/${openDay.id}`} className="secondary">О мероприятии</Link>
             </section>
-
-            <section className={styles.videoBanner}>
-                <div className={styles.container}>
-                    <div className={styles.videoImg}>
-                        <img src={Photos.Video} alt="" />
-                    </div>
-                </div>
+            <section className="page-section">
+                <div className="section-line"><h2>Новости Академии</h2><Link to="/news">Все новости</Link></div>
+                <Tiles items={news} base="/news" />
             </section>
-
-            <section className={styles.statsSection}>
-                <div className={styles.container}>
-                    {/* Заголовок */}
-                    <div className={styles.topText}>
-                        <h2>
-                            Актуальные знания от признанных экспертов рынка
-                            <br />
-                            для новичков и практикующих специалистов.
-                        </h2>
-                    </div>
-
-                    {/* Статистика (600, 82, 14795) */}
-                    <div className={styles.statsRow}>
-                        <div className={styles.statItem}>
-                            <span className={styles.statNumber}>600</span>
-                            <span className={styles.statLabel}>Курсов</span>
-                        </div>
-                        <div className={styles.statItem}>
-                            <span className={styles.statNumber}>82</span>
-                            <span className={styles.statLabel}>Ведущих преподавателей</span>
-                        </div>
-                        <div className={styles.statItem}>
-                            <span className={styles.statNumber}>14 795</span>
-                            <span className={styles.statLabel}>Выпускников</span>
-                        </div>
-                    </div>
-
-                    {/* Желтый баннер "День открытых дверей" */}
-                    <div className={styles.openDayBanner}>
-                        <div className={styles.openDayDate}>
-                            <span className={styles.bigNum}>25</span>
-                            <span className={styles.month}>ноября</span>
-                        </div>
-                        <div className={styles.openDayText}>
-                            <h4>День открытых дверей</h4>
-                            <p>
-                                Приглашаем всех желающих на бесплатную экскурсию в мир
-                                востребованных профессий и полезных навыков
-                            </p>
-                        </div>
-                        <button className={styles.signUpBtn}>Записаться &gt;</button>
-                    </div>
-
-                    {/* Сетка: Большой квадрат слева + Колонка справа */}
-                    <div className={styles.gridWrapper}>
-                        {/* 1. Большой квадрат слева (Программы обучения) */}
-                        <div className={styles.bigCard}>
-                            <div className={styles.cardContent}>
-                                <img
-                                    src={Photos.ProgramsIcon || 'https://via.placeholder.com/50'}
-                                    alt=""
-                                />
-                                <div className={styles.textBlock}>
-                                    <h3>Программы обучения</h3>
-                                    <p>
-                                        В списке наших курсов вы сможете найти профессию и занятие
-                                        по душе, изучить новое и получить практические знания,
-                                        которые помогут получить работу мечты.
-                                    </p>
-                                </div>
-                            </div>
-                            <button className={styles.moreBtn}>Подробнее &gt;</button>
-                        </div>
-
-                        {/* 2. Правая колонка */}
-                        <div className={styles.rightColumn}>
-                            {/* Верхний ряд: Новости + Мир IT */}
-                            <div className={styles.topRow}>
-                                <div className={`${styles.smallCard} ${styles.lightBlueCard}`}>
-                                    <img
-                                        src={Photos.NewsIcon || 'https://via.placeholder.com/50'}
-                                        alt=""
-                                    />
-                                    <h3>Новости Академии</h3>
-                                </div>
-                                <div className={`${styles.smallCard} ${styles.whiteCard}`}>
-                                    <img
-                                        src={Photos.ItWorldIcon || 'https://via.placeholder.com/50'}
-                                        alt=""
-                                    />
-                                    <h3>Мир IT</h3>
-                                </div>
-                            </div>
-
-                            {/* Нижний ряд: Попробуй! (на всю ширину) */}
-                            <div className={styles.tryBlock}>
-                                <div className={styles.tryIcons}>
-                                    <span className={styles.shape}>×</span>
-                                    <span className={styles.shape}>△</span>
-                                    <span className={styles.shape}>○</span>
-                                </div>
-                                <div className={styles.tryText}>
-                                    <h4>Попробуй!</h4>
-                                    <p>
-                                        Пройди тест и узнай свои способности в сфере информационных
-                                        технологий
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <section className="feature-strip tone-lilac">
+                <div><h2>Какое направление вам подойдёт?</h2><p>Ответьте на три вопроса и получите рекомендацию курса.</p></div>
+                <Link to="/quiz" className="secondary">Пройти тест</Link>
             </section>
-        </>
-    );
+        </div>
+    </>;
 }

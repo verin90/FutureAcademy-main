@@ -1,91 +1,31 @@
-import styles from './Footer.module.scss';
+import { Link } from 'react-router-dom';
 import { Photos } from '../../../../photo';
+import { audiences, contacts, courses } from '../../content';
 
 export default function Footer() {
-    return (
-        <footer className={styles.footer}>
-            <div className={styles.container}>
-                <div className={styles.companyBlock}>
-                    <img src={Photos.Logo} alt="" />
-                    <div className={styles.contactInfo}>
-                        <p>8 800 950-33-98 </p>
-                        <p>г. Москва, ул. Ленина, д. 50</p>
-                        <p>info@hodfutureacademy.ru</p>
-                    </div>
-                    <div className={styles.socialLinks}>
-                        <img src={Photos.Vk} alt="" />
-                        <img src={Photos.Insta} alt="" />
-                        <img src={Photos.Facebook} alt="" />
-                        <img src={Photos.Youtube} alt="" />
-                        <img src={Photos.Telega} alt="" />
-                    </div>
-                    <div className={styles.copyright}>
-                        <p>© ХОД, Future Academy</p>
-                    </div>
-                </div>
-
-                <div className={styles.kidsBlock}>
-                    <h3>Детям</h3>
-
-                    <ul>
-                        <li>Робототехника</li>
-                        <li>Создание игр</li>
-                        <li>Программирование</li>
-                        <li>Мультимедиа</li>
-                        <li>Soft skills</li>
-                        <li>Шахматы</li>
-                        <li>Блогинг</li>
-                        <li>Создание игр</li>
-                        <li>Программирование</li>
-                        <li>Мультимедиа</li>
-                        <li>Soft skills</li>
-                    </ul>
-                </div>
-
-                <div className={styles.teenBlock}>
-                    <h3>Подросткам</h3>
-                    <ul>
-                        <li>Web-разработка</li>
-                        <li>Прикладное программирование</li>
-                        <li>Графическое моделирование</li>
-                        <li>Game Development</li>
-                        <li>Soft skills</li>
-                        <li>Разработчик мобильных приложений</li>
-                        <li>Блогинг</li>
-                        <li>Создание игр</li>
-                        <li>Программирование</li>
-                        <li>Мультимедиа</li>
-                        <li>Soft skills</li>
-                    </ul>
-                </div>
-
-                <div className={styles.adultBlock}>
-                    <h3>Взрослым</h3>
-                    <ul>
-                        <li>Разработчик игр на Unity</li>
-                        <li>Разработка ПО</li>
-                        <li>Графический Дизайн</li>
-                        <li>Тестировщик ПО</li>
-                        <li>Интернет Маркетинг</li>
-                        <li>Java-разработчик</li>
-                        <li>Python-разработчик</li>
-                        <li>iOS-разработчик</li>
-                        <li>Программирование</li>
-                    </ul>
-                </div>
-
-                <div className={styles.infoBlock}>
-                    <h3>Информация</h3>
-                    <ul>
-                        <li>Об академии</li>
-                        <li>Мероприятия</li>
-                        <li>Новости</li>
-                        <li>База знаний</li>
-                        <li>Карьера</li>
-                        <li>Контакты</li>
-                    </ul>
-                </div>
+    return <footer className="academy-footer">
+        <div className="shell footer-grid">
+            <div className="footer-contact">
+                <Link to="/" aria-label="ХОД Future Academy, главная"><img src={Photos.Logo} alt="" /></Link>
+                <a href={`tel:${contacts.tel}`}>{contacts.phone}</a>
+                <p>{contacts.address}</p>
+                <a href={`mailto:${contacts.email}`}>{contacts.email}</a>
+                <small>© ХОД Future Academy</small>
             </div>
-        </footer>
-    );
+            {audiences.map((group) => <div key={group.id}>
+                <h2>{group.name}</h2>
+                <ul>{courses.filter((course) => course.audience === group.id).map((course) => (
+                    <li key={course.id}><Link to={`/courses/${course.id}`}>{course.title}</Link></li>
+                ))}</ul>
+            </div>)}
+            <div><h2>Информация</h2><ul>
+                <li><Link to="/about">Об академии</Link></li>
+                <li><Link to="/events">Мероприятия</Link></li>
+                <li><Link to="/news">Новости</Link></li>
+                <li><Link to="/knowledge">База знаний</Link></li>
+                <li><Link to="/career">Карьера</Link></li>
+                <li><Link to="/contacts">Контакты</Link></li>
+            </ul></div>
+        </div>
+    </footer>;
 }

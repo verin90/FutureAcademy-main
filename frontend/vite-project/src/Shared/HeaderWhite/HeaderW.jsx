@@ -1,69 +1,47 @@
 import { useState } from 'react';
-import styles from '../HeaderWhite/HeaderW.module.scss';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import { Photos } from '../../../../photo';
+import { useSession } from '../../api';
+import { contacts } from '../../content';
+
+const cities = ['Нижний Новгород', 'Москва', 'Казань'];
+const pages = [
+    ['/catalog', 'Все курсы'], ['/events', 'Мероприятия'], ['/knowledge', 'База знаний'],
+    ['/career', 'Карьера'], ['/news', 'Новости'], ['/contacts', 'Контакты'],
+];
 
 export default function HeaderW() {
-    const [isOpen, setIsOpen] = useState(false);
-    const cities = ['Москва', 'Казань', 'Нижний Новгород'];
-    const [city, setCity] = useState('Нижний Новгород');
+    const location = useLocation();
+    const [openAt, setOpenAt] = useState(null);
+    const [city, setCity] = useState(() => {
+        const previous = localStorage.getItem('future-city');
+        return cities.includes(previous) ? previous : cities[0];
+    });
+    const { user } = useSession();
+    const open = openAt === location.key;
 
-    return (
-        <header className={styles.header}>
-            <div className={styles.container}>
-                <NavLink to="/">
-                    <img src={Photos.LogoBl} alt="Future Academy" />
-                </NavLink>
+    function changeCity(event) {
+        const next = event.target.value;
+        setCity(next);
+        localStorage.setItem('future-city', next);
+    }
 
-                <nav>
-                    <ul>
-                        <li>
-                            <img src={Photos.AllCourse} alt="" />
-                            <NavLink to="/course">Все курсы</NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/events">Мероприятия</NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/knowledge">Базы знаний</NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/career">Карьера</NavLink>
-                        </li>
-                    </ul>
+    return <header className="academy-header">
+        <div className="shell header-inner">
+            <Link to="/" className="academy-logo" aria-label="ХОД Future Academy, главная"><img src={Photos.Logo} alt="" /></Link>
+            <button type="button" className="menu-toggle" aria-expanded={open} aria-controls="header-links" onClick={() => setOpenAt(open ? null : location.key)}>
+                {open ? 'Закрыть меню' : 'Меню'}
+            </button>
+            <div id="header-links" className={`header-links${open ? ' open' : ''}`}>
+                <nav aria-label="Основная навигация">
+                    {pages.map(([path, label]) => <NavLink key={path} to={path} onClick={() => setOpenAt(null)}>{label}</NavLink>)}
                 </nav>
-
-                <div className={styles.headerActions}>
-                    <div className={styles.location} onClick={() => setIsOpen(!isOpen)}>
-                        <img className={styles.locationImg} src={Photos.Map} alt="" />
-                        <p>{city}</p>
-                        {isOpen && (
-                            <ul className={styles.cityList}>
-                                {cities.map((item) => (
-                                    <li
-                                        key={item}
-                                        onClick={() => {
-                                            setCity(item);
-                                            setIsOpen(false);
-                                        }}>
-                                        {item}
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                        <img
-                            className={`${styles.arrowDownImg} ${isOpen ? styles.arrowUp : ''}`}
-                            src={Photos.Arrow}
-                            alt=""
-                        />
-                    </div>
-                    <a href="">8 800 950-33-98</a>
-                    <NavLink className={styles.loginBlock} to="/login">
-                        <img src={Photos.User} alt="" />
-                        <span>Войти</span>
-                    </NavLink>
+                <div className="header-actions">
+                    <label><span className="sr-only">Ваш город</span><select value={city} onChange={changeCity}>{cities.map((name) => <option key={name}>{name}</option>)}</select></label>
+                    <a href={`tel:${contacts.tel}`}>{contacts.phone}</a>
+                    <NavLink to={user ? '/account' : '/login'} onClick={() => setOpenAt(null)}>{user ? 'Личный кабинет' : 'Войти'}</NavLink>
                 </div>
             </div>
-        </header>
-    );
+        </div>
+    </header>;
 }

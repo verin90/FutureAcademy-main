@@ -1,20 +1,18 @@
 {
-    "dependencies": {
-        "bcryptjs": "^3.0.3",
-        "cors": "^2.8.6",
-        "express": "^5.2.1",
-        "pg": "^8.21.0"
-    },
-    "name": "backend",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "devDependencies": {},
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "node index.js"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC"
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "express": "^5.2.1"
+  },
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --test",
+    "start": "node index.js",
+    "applications": "node applications.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
